@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private Cursor cursor;
+    public static final String EXTRA_THING = "MainAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, DatabaseActivity.class);
+                intent.putExtra(EXTRA_THING,i);
                 startActivity(intent);
             }
         };

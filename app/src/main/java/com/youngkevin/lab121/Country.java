@@ -1,12 +1,12 @@
 package com.youngkevin.lab121;
 
-public class County {
+public class Country {
     private int id;
     private String name;
     private String description;
     private int image;
 
-    public County(int id, String name, String description, int image) {
+    public Country(int id, String name, String description, int image) {
         this.id = id;
         this.name = name;
         this.description = description;

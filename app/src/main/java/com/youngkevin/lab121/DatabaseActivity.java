@@ -1,64 +1,73 @@
 package com.youngkevin.lab121;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cursoradapter.widget.CursorAdapter;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DatabaseActivity extends AppCompatActivity {
+
+    private SQLiteDatabase db;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database);
 
-        ListView listView = findViewById(R.id.db_info);
+        SQLiteOpenHelper dbHelper = new MyDBHelper(this);
 
-        SQLiteOpenHelper databaseHelper = new MyDBHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        //ListView listView = findViewById(R.id.db_info);
+        Intent intent = getIntent();
+        int category = intent.getIntExtra(MainActivity.EXTRA_THING,0);
         try{
-            SQLiteDatabase db = databaseHelper.getReadableDatabase();
-            //code to read from database
+            SQLiteOpenHelper databaseHelper = new MyDBHelper(this);
             Cursor cursor = db.query("COUNTRY",
-                    new String[] { "_id", "NAME", "DESCRIPTION","IMAGE_RESOURCE_ID"},
-                    null,
-                    null,
+                    new String[]{"_id", "NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
+                    "_id = ?",
+                    new String[]{String.valueOf(category)},
                     null,
                     null,
                     null);
 
-            SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_1,
-                    cursor, new String[] {"NAME"},
-                    new int[] {android.R.id.text1},
-                    0);
+            if(cursor.moveToFirst()){
+                String name = cursor.getString(1);
+                String desc = cursor.getString(2);
+                int imageId = cursor.getInt(3);
 
-            if(cursor != null) {
-                for (String columnName : cursor.getColumnNames()) {
-                    Log.i("Column name", columnName);
-                }
-                if (cursor.moveToFirst()) {
-                    // Retrieve the data in each column
-                    String name = cursor.getString(cursor.getColumnIndex("NAME"));
-                    String description = cursor.getString(cursor.getColumnIndex("DESCRIPTION"));
-                    int imageResourceId = cursor.getInt(cursor.getColumnIndex("IMAGE_RESOURCE_ID"));
 
-                    // Do something with the data...
-                }
+                TextView textview = findViewById(R.id.textName);
+                TextView textView2 = findViewById(R.id.textDescription);
+                ImageView imageview = findViewById(R.id.imageView1);
+
+                textview.setText(name);
+                textView2.setText(desc);
+                imageview.setImageResource(imageId);
             }
 
-            listView.setAdapter(cursorAdapter);
-        }
-        catch(SQLiteException ex){
-            Toast.makeText(this,"SQL Error ",Toast.LENGTH_SHORT).show();
-        }
 
+
+            db.close();
+            cursor.close();
+        }
+        catch(Exception ex){
+            Toast toast = Toast.makeText(this,"no", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

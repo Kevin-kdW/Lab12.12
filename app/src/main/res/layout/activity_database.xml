@@ -7,10 +7,21 @@
     android:orientation="vertical"
     tools:context=".DatabaseActivity">
 
-    <ListView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/db_info"
+        android:id="@+id/textName"
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textDescription"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView1"
+        />
 </LinearLayout>

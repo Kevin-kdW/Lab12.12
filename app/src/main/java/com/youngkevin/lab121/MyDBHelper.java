@@ -25,7 +25,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         countryValues.put("IMAGE_RESOURCE_ID", 345678910);
         sqLiteDatabase.insert("COUNTRY", null, countryValues);
 
-
         ContentValues countryValues2 = new ContentValues();
         countryValues2.put("NAME", "Brazil");
         countryValues2.put("DESCRIPTION", "Brazil is the largest country in South America, famous for its annual carnival in Rio de Janeiro and its passion for football.");
