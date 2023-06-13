@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this,
                     android.R.layout.simple_list_item_1,
                     cursor, new String[] {"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
-                    new int[] {android.R.id.text1, android.R.id.text2,},
+                    new int[] {android.R.id.text1},
                     0);
 
             listView.setAdapter(cursorAdapter);
